@@ -1,0 +1,21 @@
+.player {
+  &:hover {
+    cursor: pointer;
+  }
+}
+.message-box {
+    height: 450px;
+    overflow-y: scroll;
+}
+.message {
+  div {
+    display: inline-block;
+  }
+  .username {
+    font-weight: bold;
+
+    &:after{
+      content: " - "
+    }
+  }
+}

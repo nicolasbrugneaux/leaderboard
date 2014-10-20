@@ -1,0 +1,153 @@
+<head>
+  <title>Leaderboard</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+</head>
+
+<body>
+  {{> navbar}}
+  <div class="container">
+    <div class="col-md-8">
+      {{> leaderboard}}
+    </div>
+    <div class="col-md-4">
+      {{> chat }}
+    </div>
+  </div>
+</body>
+
+<template name="navbar">
+  <div class="header">
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Sociomantic's pool table leaderboard</a>
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#leaderboard-nav">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="leaderboard-nav">
+        <ul class="nav navbar-nav navbar-right">
+          {{> loginButtons }} <!-- here -->
+        </ul>
+      </div>
+    </nav>
+  </div>
+</template>
+
+<template name="leaderboard">
+  <h2>Top 25</h2>
+  <div class="leaderboard table-responsive">
+    <table class="table">
+      <thead>
+          <tr>
+            {{#if isAdmin}}
+            <th></th>
+            {{/if}}
+            <th>Name</th>
+            <th>Win/Lose ratio</th>
+            <th>Wins</th>
+            <th>Losses</th>
+            <th>Win streak</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each players}}
+          {{> player}}
+        {{/each}}
+        </tbody>
+    </table>
+    <hr>
+    {{> new_player }}
+  </div>
+  {{#if selected}}
+  <hr>
+  <div class="details">
+    <h3>{{selected.name}}</h3>
+    <div>Current wins: {{selected.wins}}</div>
+    <div>Current losses: {{selected.losses}}</div>
+    <div>Current score: {{selected._score}}</div>
+    <div>Current victory streak: {{selected.streak}}</div>
+    <button class="js-win btn btn-default btn-success">Won match</button>
+    <button class="js-loss btn btn-default btn-danger">Lost match</button>
+  </div>
+  {{/if}}
+</template>
+
+<template name="player">
+  <tr class="player {{selected}}">
+    {{#if isAdmin}}
+      <td>
+        <button type="button" class="btn btn-xs btn-danger js-delete">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </td>
+    {{/if}}
+    <td class="name">
+      {{name}}
+    </td>
+    {{#if _score }}
+      <td class="score">{{_score}}%</td>
+      <td class="wins">{{wins}}</td>
+      <td class="losses">{{losses}}</td>
+      <td class="streak">{{streak}}
+        {{#if onFire}}
+          &nbsp;<span class="glyphicon glyphicon-star"></span>
+        {{/if}}
+      </td>
+    {{else}}
+        <td class="empty">No match played yet.</td>
+        <td></td>
+        <td></td>
+        <td></td>
+    {{/if}}
+  </tr>
+</template>
+
+<template name="new_player">
+  {{#if isAdmin}}
+    <div class="new_player row">
+      {{#if error}}
+        <div class="alert alert-danger">
+          {{error}}
+        </div>
+      {{/if}}
+      <div class="input-group">
+        <input type="text" style="height:34px;" class="js-new_player_name form-control">
+        <span class="input-group-btn">
+          <button class="js-add btn btn-default" type="button">Add Player</button>
+        </span>
+      </div>
+    </div>
+  {{/if}}
+</template>
+
+<template name="chat">
+  {{#if isLogged}}
+    <h2>Pool chat <button class="js-chat-clear btn btn-default btn-xs btn-warning">Clear Messages</button></h2>
+    <hr>
+    {{#if hasMessages}}
+      <div class="message-box well">
+        {{#each messages}}
+          <div class="message">
+            <div class="username">{{username}}</div>
+            <div class="message-body">{{message}}</div>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="message-box well">
+        <div class="message">
+          Be the first to send a message here!
+        </div>
+      </div>
+    {{/if}}
+    <div class="js-chat-message input-group">
+      <input type="text" style="height:34px;" class="js-new_player_name form-control" placeholder="Type here to chat...">
+      <span class="input-group-btn">
+        <button class="js-chat-send btn btn-default btn-primary" type="button">Send Message</button>
+      </span>
+    </div>
+  {{/if}}
+</template>
