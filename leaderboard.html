@@ -45,6 +45,7 @@
             {{#if isAdmin}}
             <th></th>
             {{/if}}
+            <th></th>
             <th>Name</th>
             <th>Win/Lose ratio</th>
             <th>Wins</th>
@@ -84,6 +85,11 @@
         </button>
       </td>
     {{/if}}
+    <td>
+    {{#if onFire}}
+      <span class="glyphicon glyphicon-fire"></span>
+    {{/if}}
+    </td>
     <td class="name">
       {{name}}
     </td>
@@ -91,13 +97,10 @@
       <td class="score">{{_score}}%</td>
       <td class="wins">{{wins}}</td>
       <td class="losses">{{losses}}</td>
-      <td class="streak">{{streak}}
-        {{#if onFire}}
-          &nbsp;<span class="glyphicon glyphicon-star"></span>
-        {{/if}}
-      </td>
+      <td class="streak">{{streak}}</td>
     {{else}}
         <td class="empty">No match played yet.</td>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
