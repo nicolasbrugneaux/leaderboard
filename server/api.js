@@ -26,9 +26,14 @@ HTTP.methods(
         return 'Only GET requests allowed.';
       }
 
-      var sort = this.query.sort === 'asc' ? 1 : -1;
+      var sort  = this.query.sort === 'asc' ? 1 : -1;
+      var limit = !isNaN( this.query.limit ) ? +this.query.limit : 50;
 
-      return send( Players.find( {}, { sort: { score:sort, name:1 } } ).fetch() );
+      return send( Players.find( {},
+      {
+        sort: { score:sort, name:1 },
+        limit: limit
+      } ).fetch() );
 
   },
 
