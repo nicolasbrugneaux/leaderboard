@@ -29,9 +29,18 @@ HTTP.methods(
       var sort  = this.query.sort === 'asc' ? 1 : -1;
       var limit = !isNaN( this.query.limit ) ? +this.query.limit : 50;
 
+      var _sort = {
+          score: sort,
+          wins: -1,
+          losses: 1,
+          total: -1,
+          streak: -1,
+          name: 1
+      };
+
       return send( Players.find( {},
       {
-        sort: { score:sort, name:1 },
+        sort: _sort,
         limit: limit
       } ).fetch() );
 
@@ -66,7 +75,7 @@ HTTP.methods(
           status: 'This player doesn\'t exist.'
         } );
       }
-      return send( Players.find( {}, { sort: { score:-1, name:1 } } ).fetch() );
+      return send( Players.find( {}, { sort: { score: -1, wins: -1, losses: 1, total: -1, streak: -1, name: 1 } } ).fetch() );
 
   }
 });

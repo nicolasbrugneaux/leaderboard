@@ -86,7 +86,7 @@ Template.leaderboard.helpers(
         // } );
         return Players.find( {},
         {
-            sort: { score: -1, wins: -1, total: -1, streak: -1, name: 1 },
+            sort: { score: -1, wins: -1, losses: 1, total: -1, streak: -1, name: 1 },
             limit: 25
         } );
     },
