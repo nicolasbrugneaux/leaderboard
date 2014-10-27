@@ -13,7 +13,7 @@ module.exports = Router.extend({
         '': 'home',
         'players': 'players',
         'info': 'info',
-        'match/add': 'matchAdd',
+        'matches/add': 'matchAdd',
         'player/add': 'playerAdd',
         'player/:id': 'playerView',
         'player/:id/edit': 'playerEdit',

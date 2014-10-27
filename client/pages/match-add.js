@@ -3,9 +3,8 @@ var PageView = require('./base');
 var templates = require('../templates');
 var MatchForm = require('../forms/match');
 var PlayerView = require('../views/player');
-var People = require('../models/players');
-
-console.log( ' THISISHAPPENING' );
+var Players = require('../models/players');
+var Elo = require('elo-js');
 
 module.exports = PageView.extend({
     pageTitle: 'add match',
@@ -23,8 +22,17 @@ module.exports = PageView.extend({
     },
     setmatch: function ( )
     {
-        console.log( 'YES' );
-        console.log( this.subviews );
+        var data = this.form.getData();    
+        var elo = new Elo();
+        //elo logic should probably be on the server, and just
+        //update the users there( after confirmation )
+        data.winner.elo = elo.ifWins( data.winner.elo, data.loser.elo );;
+        data.loser.elo = elo.ifLoses( data.loser.elo, data.winner.elo );;
+        
+        // app.navigate('/players');
+
+        console.log( data.winner.elo );
+        console.log( data.loser.elo );
 
     },
     fetchCollection: function () {

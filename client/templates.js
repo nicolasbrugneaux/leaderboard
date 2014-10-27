@@ -17,7 +17,7 @@
 
     // body.jade compiled template
     templatizer["body"] = function tmpl_body() {
-        return '<body><nav class="navbar navbar-default"><div class="container-fluid"><div class="navbar-header"><a href="/" class="navbar-brand">Poll Ampersand</a></div><ul class="nav navbar-nav"><li><a href="/">home</a></li><li><a href="/players">players</a></li><li> <a href="/match/add">add match </a></li></ul></div></nav><div class="container"><main data-hook="page-container"></main></div></body>';
+        return '<body><nav class="navbar navbar-default"><div class="container-fluid"><div class="navbar-header"><a href="/" class="navbar-brand">Poll Ampersand</a></div><ul class="nav navbar-nav"><li><a href="/">home</a></li><li><a href="/players">players</a></li><li> <a href="/matches/add">add match </a></li></ul></div></nav><div class="container"><main data-hook="page-container"></main></div></body>';
     };
 
     // head.jade compiled template
@@ -32,7 +32,7 @@
 
     // includes/player.jade compiled template
     templatizer["includes"]["player"] = function tmpl_includes_player() {
-        return '<li class="player list-group-item"><img data-hook="avatar" width="40" height="40"/><a data-hook="name"></a><span data-hook="elo" class="score"></span><span class="btn-group pull-right"> <a data-hook="action-edit" class="btn btn-default">edit </a><a href="#" data-hook="action-delete" class="btn btn-danger">delete</a></span></li>';
+        return '<li class="player list-group-item"><img data-hook="avatar" width="40" height="40"/><a data-hook="name"></a><h6 class="elo__header">Elo Rating</h6><span data-hook="elo" class="elo"></span><span class="btn-group pull-right"> <a data-hook="action-edit" class="btn btn-default">edit </a><a href="#" data-hook="action-delete" class="btn btn-danger">delete</a></span></li>';
     };
 
     // pages/home.jade compiled template
