@@ -19,7 +19,8 @@ module.exports = FormView.extend({
                 idAttribute: 'id',
                 // you can also specify which model attribute to use as the name
                 textAttribute: 'fullName',
-                parent: this
+                parent: this,
+                value: app.players.at(0)
             }),
             new SelectView({
                 label: 'loser',
@@ -29,7 +30,8 @@ module.exports = FormView.extend({
                 parent: this,
                 idAttribute: 'id',
                 // you can also specify which model attribute to use as the name
-                textAttribute: 'fullName'
+                textAttribute: 'fullName',
+                value: app.players.at(1)
             })
         ];
     }
