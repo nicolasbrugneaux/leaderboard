@@ -3,7 +3,7 @@ var templates = require('../templates');
 
 
 module.exports = View.extend({
-    template: templates.includes.person,
+    template: templates.includes.player,
     bindings: {
         'model.fullName': '[data-hook~=name]',
         'model.avatar': {

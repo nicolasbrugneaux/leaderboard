@@ -1,3 +1,5 @@
+/*jshint eqnull: true*/
+
 var parse     = require( 'co-body' );
 var r         = require( 'rethinkdb' );
 var http      = require( 'http' );
@@ -24,10 +26,10 @@ module.exports.getAll = function* getAll(next) {
 
 // Retrieve a player by id
 module.exports.get = function* get(id, next) {
-    
+
     this.type = 'application/json';
     try{
-        var player = yield Players.get(+id).run(this._rdbConn);
+        var player = yield Players.get(id).run(this._rdbConn);
         if ( !player )
         {
             this.status = 404;
@@ -49,7 +51,7 @@ module.exports.getByName = function* getByName(name, next) {
 
     this.type = 'application/json';
     try{
-        var cursor = yield Users.filter({first_name: name})
+        var cursor = yield Users.filter({firstName: name})
             .eqJoin('player_id', Players)
             .limit(1)
             .run(this._rdbConn);
@@ -96,12 +98,12 @@ module.exports.create = function* create(next) {
 
 // Update a player
 module.exports.update = function* update(next) {
- 
+
     this.type = 'application/json';
     try{
         var player = yield parse(this);
         delete player._saving;
-        if ((player === null) || (player.id === null)) {
+        if ((player == null) || (player.id == null)) {
             throw new Error('The player must have a field `id`.');
         }
 
@@ -117,15 +119,15 @@ module.exports.update = function* update(next) {
 };
 
 // Delete a player
-module.exports.del = function* del(next) {
- 
+module.exports.del = function* del(next)
+{
     this.type = 'application/json';
     try{
-        var player = yield parse(this);
-        if ((player === null) || (player.id === null)) {
+        var id = this.params.id;
+        if (id == null) {
             throw new Error('The player must have a field `id`.');
         }
-        var result = yield Players.get(player.id).delete().run(this._rdbConn);
+        var result = yield Players.get(id).delete().run(this._rdbConn);
         this.status = 204;
     }
     catch(e) {

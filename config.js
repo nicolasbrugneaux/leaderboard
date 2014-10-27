@@ -9,7 +9,7 @@ module.exports =
     },
     koa:
     {
-        port: 3000
+        port: 8888
     },
     isDev: true
 };
