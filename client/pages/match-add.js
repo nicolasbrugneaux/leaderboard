@@ -2,8 +2,8 @@
 var PageView = require('./base');
 var templates = require('../templates');
 var MatchForm = require('../forms/match');
-var PersonView = require('../views/person');
-var People = require('../models/persons');
+var PlayerView = require('../views/player');
+var People = require('../models/players');
 
 console.log( ' THISISHAPPENING' );
 

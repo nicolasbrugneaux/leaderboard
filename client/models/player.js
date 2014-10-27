@@ -6,7 +6,8 @@ module.exports = AmpersandModel.extend({
         id: 'any',
         firstName: ['string', true, ''],
         lastName: ['string', true, ''],
-        coolnessFactor: ['number', true, 5]
+        coolnessFactor: ['number', true, 5],
+        elo: ['elo', true, 1000]
     },
     session: {
         selected: ['boolean', true, false]
