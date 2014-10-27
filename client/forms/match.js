@@ -14,7 +14,7 @@ module.exports = FormView.extend({
             new SelectView({
                 label: 'Winner',
                 name: 'winner',
-                options: app.people,
+                options: app.players,
                 // placeholder: 'Champion',
                 idAttribute: 'id',
                 // you can also specify which model attribute to use as the name
@@ -24,7 +24,7 @@ module.exports = FormView.extend({
             new SelectView({
                 label: 'loser',
                 name: 'loser',
-                options: app.people ,
+                options: app.players ,
                 placeholder: 'Looooooser',
                 parent: this,
                 idAttribute: 'id',

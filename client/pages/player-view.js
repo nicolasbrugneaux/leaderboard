@@ -16,6 +16,9 @@ module.exports = PageView.extend({
             hook: 'avatar',
             name: 'src'
         },
+         'model.elo': {
+            hook: 'elo'
+        },
         'model.editUrl': {
             type: 'attribute',
             hook: 'edit',
