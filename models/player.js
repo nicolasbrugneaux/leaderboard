@@ -3,7 +3,7 @@ var thinky = require( '../thinky.js' );
 var Player = thinky.createModel( 'players',
 {
     // id       : rethinkdb auto-generate uuid
-    ranking     : 
+    ranking     :
     {
         _type   : Number,
         default : 1200
@@ -27,3 +27,19 @@ Player.hasMany( Challenge, 'challenges', 'id', 'challengeId' );
 
 var Notification = require( './notification' );
 Player.hasMany( Notification, 'notifications', 'id', 'notificationId' );
+
+Player.defineStatic( 'getView', function()
+{
+    return this.without( 'userId' ).getJoin({
+        user:
+        {
+            _apply : function( user )
+            {
+                return user.without( 'password', 'playerId' );
+            }
+        },
+        matches         : true,
+        challenges      : true,
+        notifications   : true
+    } );
+} );

@@ -6,16 +6,15 @@ var http      = require( 'http' );
 
 var Players = r.table( 'players' );
 var Users   = r.table( 'users' );
-
+var Player = require( '../models/player' );
 
 // Retrieve all players
 module.exports.getAll = function* getAll(next) {
 
     this.type = 'application/json';
     try{
-        var cursor = yield Players.run(this._rdbConn);
-        var result = yield cursor.toArray();
-        this.body = JSON.stringify(result);
+        var players = yield Player.getView().run();
+        this.body = JSON.stringify(players);
     }
     catch(e) {
         this.status = 500;
@@ -25,11 +24,12 @@ module.exports.getAll = function* getAll(next) {
 };
 
 // Retrieve a player by id
-module.exports.get = function* get(id, next) {
+module.exports.get = function* get(next) {
 
     this.type = 'application/json';
     try{
-        var player = yield Players.get(id).run(this._rdbConn);
+        var id = this.params.id;
+        var player = yield Player.get(id).getView().run();
         if ( !player )
         {
             this.status = 404;

@@ -129,7 +129,7 @@ var readStatic = function( type )
         else if ( type === 'html' )
         {
             resolve( clientApp.htmlSource() );
-        } 
+        }
     } );
 };
 
@@ -140,7 +140,7 @@ function* render()
 
 route
 
-// API 
+// API
 .get( '/api/players', api.getAll )
 .get( '/api/players/:id', api.get )
 .delete( '/api/players/:id', api.del )
