@@ -7,6 +7,7 @@ var ExtendedInput = InputView.extend({
 
 module.exports = FormView.extend({
     fields: function () {
+        console.log( 'player add model', this.model );
         return [
             new ExtendedInput({
                 label: 'First Name',

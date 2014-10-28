@@ -147,6 +147,9 @@ route
 .put( '/api/players/:id', api.update )
 .post( '/api/players', api.create )
 
+//matches
+.post( '/api/matches', api.createMatch )
+
 .get( '/static/:file', function* serveStatic()
 {
     try
@@ -173,7 +176,11 @@ route
 .get( '/', render )
 .get( '/players', render )
 .get( '/player/:idOrAction', render )
-.get( '/player/:id/:action', render );
+.get( '/player/:id/:action', render )
+//matches
+.get( '/matches', render )
+.get( '/match/:idOrAction', render )
+.get( '/match/:id/:action', render );
 
 app.use( logger() );
 app.use( compress() );

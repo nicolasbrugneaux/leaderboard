@@ -5,8 +5,10 @@ var r         = require( 'rethinkdb' );
 var http      = require( 'http' );
 
 var Players = r.table( 'players' );
+var Matches = r.table( 'matches' );
 var Users   = r.table( 'users' );
 var Player = require( '../models/player' );
+var Match = require( '../models/match' );
 
 // Retrieve all players
 module.exports.getAll = function* getAll(next) {
@@ -96,6 +98,8 @@ module.exports.create = function* create(next) {
     yield next;
 };
 
+
+
 // Update a player
 module.exports.update = function* update(next) {
 
@@ -129,6 +133,29 @@ module.exports.del = function* del(next)
         }
         var result = yield Players.get(id).delete().run(this._rdbConn);
         this.status = 204;
+    }
+    catch(e) {
+        this.status = 500;
+        this.body = e.message || http.STATUS_CODES[this.status];
+    }
+    yield next;
+};
+
+
+
+
+
+// Create a new match
+module.exports.createMatch = function* create(next) {
+
+    this.type = 'application/json';
+    try{
+        var match = yield parse(this);
+        match.createdAt = r.now();
+        var result = yield Match.insert(match, {returnChanges: true}).run(this._rdbConn);
+        match = result.changes[0].new_val;
+        this.body = JSON.stringify(match);
+        this.status = 201;
     }
     catch(e) {
         this.status = 500;

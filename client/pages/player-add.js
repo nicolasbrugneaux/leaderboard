@@ -20,8 +20,10 @@ module.exports = PageView.extend(
                     el: el,
                     submitCallback: function (data)
                     {
+                        console.log( 'player data', data );
                         app.players.create(data,
                         {
+
                             wait: true,
                             success: function () {
                                 app.navigate('/players');

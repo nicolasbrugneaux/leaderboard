@@ -9,18 +9,22 @@ var Elo = require('elo-js');
 module.exports = PageView.extend({
     pageTitle: 'add match',
     template: templates.pages.matchAdd,
-    events: {
-        'click [data-hook~=setmatch]': 'setmatch',
-    },
+    // events: {
+    //     'click [data-hook~=setmatch]': 'setmatch',
+    // },
     initialize: function (spec) {
         console.log( 'AN INIT' );
 
+
         if (!this.collection.length) {
+        //if this needs to be fetched the rest needs to wait
+        //im not sure how to run promises with this set up 
+        //at the moment
             this.fetchCollection();
         }
 
     },
-    setmatch: function ( )
+    updatePlayerRatings: function ( )
     {
         var data = this.form.getData();    
         var elo = new Elo();
@@ -29,11 +33,16 @@ module.exports = PageView.extend({
         data.winner.elo = elo.ifWins( data.winner.elo, data.loser.elo );;
         data.loser.elo = elo.ifLoses( data.loser.elo, data.winner.elo );;
         
+        data.winner.save();
+        data.loser.save();
+
         // app.navigate('/players');
 
         console.log( data.winner.elo );
         console.log( data.loser.elo );
 
+        app.navigate('/collections');
+        app.people.fetch();
     },
     fetchCollection: function () {
         this.collection.fetch();
@@ -45,16 +54,22 @@ module.exports = PageView.extend({
             prepareView: function (el) {
                 return new MatchForm({
                     el: el,
-                    // submitCallback: function (data) {
-                    //     console.log( 'Submitted' );
-                    //     // app.match.create(data, {
-                    //     //     wait: true,
-                    //     //     success: function () {
-                    //     //         app.navigate('/collections');
-                    //     //         app.people.fetch();
-                    //     //     }
-                    //     // });
-                    // }
+                    submitCallback: function (data) {
+
+                        //not sure why the select isnt returning the right
+                        //value, should be according to git repo
+                        //https://github.com/AmpersandJS/ampersand-select-view
+                        data.winnerId = data.winnerId.id;
+                        data.loserId = data.loserId.id;
+                        console.log( 'Submitted match', data );
+                        app.matches.create( data, {
+                            wait: true,
+                            success: function () {
+                                this.updatePlayerRatings();
+
+                            }
+                        });
+                    }
                 });
             }
         }

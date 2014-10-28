@@ -4,6 +4,7 @@ var Router  = require('./router');
 var MainView = require('./views/main');
 var Me = require('./models/me');
 var Players = require('./models/players');
+var Matches = require('./models/matches');
 var domReady = require('domready');
 
 
@@ -15,6 +16,9 @@ module.exports = {
         // create our global 'me' object and an empty collection for our players models.
         window.me = new Me();
         this.players = new Players();
+        
+        //matches object
+        this.matches = new Matches();
 
         // init our URL handlers and the history tracker
         this.router = new Router();

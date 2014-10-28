@@ -1,5 +1,8 @@
 var thinky = require( '../thinky.js' );
+// var r         = require( 'rethinkdb' );
 
+
+// console.log( thinky.r.now() );
 var Match = thinky.createModel( 'matches',
 {
     // id       : rethinkdb auto-generate uuid
