@@ -1,6 +1,8 @@
 li.player.list-group-item
   img(data-hook="avatar", width="40", height="40")
   a(data-hook="name")
+  h6.elo__header Elo Rating
+  span.elo(data-hook="elo")
   span.btn-group.pull-right 
     a.btn.btn-default(data-hook="action-edit") edit 
     a.btn.btn-danger(href="#", data-hook="action-delete") delete

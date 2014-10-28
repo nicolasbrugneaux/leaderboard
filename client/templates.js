@@ -17,7 +17,7 @@
 
     // body.jade compiled template
     templatizer["body"] = function tmpl_body() {
-        return '<body><nav class="navbar navbar-default"><div class="container-fluid"><div class="navbar-header"><a href="/" class="navbar-brand">Poll Ampersand</a></div><ul class="nav navbar-nav"><li><a href="/">home</a></li><li><a href="/players">players</a></li></ul></div></nav><div class="container"><main data-hook="page-container"></main></div></body>';
+        return '<body><nav class="navbar navbar-default"><div class="container-fluid"><div class="navbar-header"><a href="/" class="navbar-brand">Poll Ampersand</a></div><ul class="nav navbar-nav"><li><a href="/">home</a></li><li><a href="/players">players</a></li><li> <a href="/matches/add">add match </a></li></ul></div></nav><div class="container"><main data-hook="page-container"></main></div></body>';
     };
 
     // head.jade compiled template
@@ -32,12 +32,17 @@
 
     // includes/player.jade compiled template
     templatizer["includes"]["player"] = function tmpl_includes_player() {
-        return '<li class="player list-group-item"><img data-hook="avatar" width="40" height="40"/><a data-hook="name"></a><span class="btn-group pull-right"> <a data-hook="action-edit" class="btn btn-default">edit </a><a href="#" data-hook="action-delete" class="btn btn-danger">delete</a></span></li>';
+        return '<li class="player list-group-item"><img data-hook="avatar" width="40" height="40"/><a data-hook="name"></a><h6 class="elo__header">Elo Rating</h6><span data-hook="elo" class="elo"></span><span class="btn-group pull-right"> <a data-hook="action-edit" class="btn btn-default">edit </a><a href="#" data-hook="action-delete" class="btn btn-danger">delete</a></span></li>';
     };
 
     // pages/home.jade compiled template
     templatizer["pages"]["home"] = function tmpl_pages_home() {
         return '<section class="page home"><h2>Welcome to a skeleton for Pool Party</h2><p>yo</p></section>';
+    };
+
+    // pages/matchAdd.jade compiled template
+    templatizer["pages"]["matchAdd"] = function tmpl_pages_matchAdd() {
+        return '<section class="page add-match"><h2>Add Match</h2><form data-hook="match-form"><fieldset data-hook="field-container"></fieldset><div class="buttons"><button data-hook="setmatch" type="submit" class="btn">Submit</button></div></form></section>';
     };
 
     // pages/playerAdd.jade compiled template
@@ -52,7 +57,7 @@
 
     // pages/playerView.jade compiled template
     templatizer["pages"]["playerView"] = function tmpl_pages_playerView() {
-        return '<section class="page view-player"><h2 data-hook="name"></h2><img data-hook="avatar" width="80" height="80"/><div class="buttons"><a data-hook="edit" class="btn">Edit</a><button data-hook="delete" class="btn">Delete</button></div></section>';
+        return '<section class="page view-player"><h2 data-hook="name"></h2><img data-hook="avatar" width="80" height="80"/><span data-hook="elo"></span><div class="buttons"><a data-hook="edit" class="btn">Edit</a><button data-hook="delete" class="btn">Delete</button></div></section>';
     };
 
     // pages/players.jade compiled template

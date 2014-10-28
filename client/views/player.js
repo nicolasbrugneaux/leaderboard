@@ -16,6 +16,7 @@ module.exports = View.extend({
             hook: 'action-edit',
             name: 'href'
         },
+        'model.elo': '[data-hook~=elo]',
         'model.viewUrl': {
             type: 'attribute',
             hook: 'name',

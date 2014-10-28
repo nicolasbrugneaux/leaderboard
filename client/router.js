@@ -1,6 +1,7 @@
 /*global me, app*/
 var Router = require('ampersand-router');
 var HomePage = require('./pages/home');
+var MatchAddPage = require('./pages/match-add');
 var Players = require('./pages/players');
 var PlayerAddPage = require('./pages/player-add');
 var PlayerEditPage = require('./pages/player-edit');
@@ -12,6 +13,7 @@ module.exports = Router.extend({
         '': 'home',
         'players': 'players',
         'info': 'info',
+        'matches/add': 'matchAdd',
         'player/add': 'playerAdd',
         'player/:id': 'playerView',
         'player/:id/edit': 'playerEdit',
@@ -46,6 +48,13 @@ module.exports = Router.extend({
         this.trigger('page', new PlayerViewPage({
             id: id
         }));
+    },
+
+    matchAdd: function () {
+        this.trigger('page', new MatchAddPage(
+            {
+                collection: app.players
+            }));
     },
 
     catchAll: function () {
