@@ -17,6 +17,9 @@ module.exports = View.extend({
             name: 'href'
         },
         'model.elo': '[data-hook~=elo]',
+        'model.matches.length': '[data-hook~=matches]',
+        'model.wonMatches.length': '[data-hook~=wins]',
+        'model.lostMatches.length': '[data-hook~=losses]',
         'model.viewUrl': {
             type: 'attribute',
             hook: 'name',

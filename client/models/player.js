@@ -1,40 +1,63 @@
-var AmpersandModel = require('ampersand-model');
+var AmpersandModel  = require( 'ampersand-model' );
 
 
-module.exports = AmpersandModel.extend({
-    props: {
-        id: 'any',
-        firstName: ['string', true, ''],
-        lastName: ['string', true, ''],
-        elo: ['elo', true, 1200]
+module.exports = AmpersandModel.extend(
+{
+    props :
+    {
+        id          : 'any',
+        firstName   : ['string', true, ''],
+        lastName    : ['string', true, ''],
+        elo         : ['number', true, 1200],
+        wonMatches  : ['array', true],
+        lostMatches : ['array', true]
     },
-    session: {
-        selected: ['boolean', true, false]
+    session :
+    {
+        selected    : ['boolean', true, false]
     },
-    derived: {
-        fullName: {
-            deps: ['firstName', 'lastName'],
-            fn: function () {
+    derived :
+    {
+        fullName :
+        {
+            deps    : ['firstName', 'lastName'],
+            fn      : function()
+            {
                 return this.firstName + ' ' + this.lastName;
             }
         },
-        avatar: {
-            deps: ['firstName', 'lastName'],
-            fn: function () {
-                return 'http://robohash.org/' + encodeURIComponent(this.fullName) + '?size=80x80';
+        matches :
+        {
+            deps    : ['wonMatches', 'lostMatches'],
+            fn      : function()
+            {
+                return this.wonMatches.concat( this.lostMatches );
+            } 
+        },
+        avatar :
+        {
+            deps    : ['firstName', 'lastName'],
+            fn      : function()
+            {
+                return 'http://robohash.org/' + 
+                    encodeURIComponent( this.fullName) + '?size=80x80';
             }
         },
-        editUrl: {
-            deps: ['id'],
-            fn: function () {
+        editUrl :
+        {
+            deps    : ['id'],
+            fn      : function()
+            {
                 return '/player/' + this.id + '/edit';
             }
         },
-        viewUrl: {
-            deps: ['id'],
-            fn: function () {
+        viewUrl :
+        {
+            deps    : ['id'],
+            fn      : function()
+            {
                 return '/player/' + this.id;
             }
         }
     }
-});
+} );

@@ -1,8 +1,6 @@
-var thinky = require( '../thinky.js' );
-// var r         = require( 'rethinkdb' );
+var thinky  = require( '../thinky.js' );
+var r       = require( 'rethinkdb' );
 
-
-// console.log( thinky.r.now() );
 var Match = thinky.createModel( 'matches',
 {
     // id       : rethinkdb auto-generate uuid
@@ -11,13 +9,17 @@ var Match = thinky.createModel( 'matches',
     date        :
     {
         _type   : Date,
-        default : thinky.r.now()
+        default : r.now()
     },
     lame        :
     {
         _type   : Boolean,
         default : false
     }
-}, { enforce_type : 'strict' } );
+},
+{
+    enforce_type    : 'strict',
+    validate        : 'oncreate'
+} );
 
 module.exports = Match;

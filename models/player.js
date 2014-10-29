@@ -8,19 +8,25 @@ var Player = thinky.createModel( 'players',
         _type   : Number,
         default : 1200
     },
-    userId      : String
-}, { enforce_type : 'strict' } );
+    firstName   : String,
+    lastName    : String,
+    password    : String
+},
+{
+    enforce_type    : 'strict',
+    validate        : 'oncreate'
+} );
 
 Player.ensureIndex( 'ranking' );
 Player.ensureIndex( 'userId' );
 
 module.exports = Player;
 
-var User = require( './user' );
-Player.belongsTo( User, 'user', 'userId', 'id' );
-
 var Match = require( './match' );
-Player.hasMany( Match, 'matches', 'id', 'matchId' );
+Player.hasMany( Match, 'wonMatches', 'id', 'winnerId' );
+Player.hasMany( Match, 'lostMatches', 'id', 'loserId' );
+
+// Player.hasMany( Match, 'matches', 'id', 'matchId' );
 
 var Challenge = require( './challenge' );
 Player.hasMany( Challenge, 'challenges', 'id', 'challengeId' );
@@ -30,16 +36,22 @@ Player.hasMany( Notification, 'notifications', 'id', 'notificationId' );
 
 Player.defineStatic( 'getView', function()
 {
-    return this.without( 'userId' ).getJoin({
-        user:
-        {
-            _apply : function( user )
-            {
-                return user.without( 'password', 'playerId' );
-            }
-        },
-        matches         : true,
+    return this.getJoin(
+    {
+        wonMatches      : true,
+        lostMatches     : true,
         challenges      : true,
         notifications   : true
-    } );
+    } ).without( 'password' );
+} );
+
+Player.define( 'fullName', function()
+{
+    return this.firstName + ' ' + this.lastName;
+} );
+
+Player.define( 'getView', function()
+{
+    this.password = undefined;
+    return this;
 } );

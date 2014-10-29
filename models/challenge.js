@@ -10,7 +10,11 @@ var Challenge = thinky.createModel( 'challenges',
         _type     : String,
         default   : 'not_yet_played'
     }
-}, { enforce_type : 'strict' } );
+},
+{
+    enforce_type    : 'strict',
+    validate        : 'oncreate'
+} );
 
 module.exports = Challenge;
 

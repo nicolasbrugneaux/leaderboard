@@ -16,8 +16,8 @@ var getPath = function( path )
     return __dirname + '/' + path;
 };
 
-var config      = require( getPath( 'config.js' ) );
-var api         = require( getPath( 'controllers/api.js' ) );
+var config      = require( getPath( 'config' ) );
+var api         = require( getPath( 'api' ) );
 
 var app         = koa();
 var route       = new Route();
@@ -141,14 +141,14 @@ function* render()
 route
 
 // API
-.get( '/api/players', api.getAll )
-.get( '/api/players/:id', api.get )
-.delete( '/api/players/:id', api.del )
-.put( '/api/players/:id', api.update )
-.post( '/api/players', api.create )
+.get( '/api/players', api.players.getAll )
+.get( '/api/players/:id', api.players.get )
+.delete( '/api/players/:id', api.players.del )
+.put( '/api/players/:id', api.players.update )
+.post( '/api/players', api.players.create )
 
 //matches
-.post( '/api/matches', api.createMatch )
+.post( '/api/matches', api.matches.createMatch )
 
 .get( '/static/:file', function* serveStatic()
 {

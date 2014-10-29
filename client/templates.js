@@ -32,7 +32,7 @@
 
     // includes/player.jade compiled template
     templatizer["includes"]["player"] = function tmpl_includes_player() {
-        return '<li class="player list-group-item"><img data-hook="avatar" width="40" height="40"/><a data-hook="name"></a><h6 class="elo__header">Elo Rating</h6><span data-hook="elo" class="elo"></span><span class="btn-group pull-right"> <a data-hook="action-edit" class="btn btn-default">edit </a><a href="#" data-hook="action-delete" class="btn btn-danger">delete</a></span></li>';
+        return '<li class="player list-group-item"><span class="btn-group pull-right"> <a data-hook="action-edit" class="btn btn-default">Edit </a><a href="#" data-hook="action-delete" class="btn btn-danger">Delete</a></span><img data-hook="avatar" width="40" height="40"/><a data-hook="name"></a><h6 class="elo__header">Elo Rating</h6><span data-hook="elo" class="elo"></span><h6 class="matches__header">Matches</h6><span data-hook="wins" class="wins"></span>/<span data-hook="matches" class="total"></span></li>';
     };
 
     // pages/home.jade compiled template

@@ -9,7 +9,11 @@ var Challenge = thinky.createModel( 'notifications',
         default : 'default'
     },
     message     : String
-}, { enforce_type : 'strict' } );
+},
+{
+    enforce_type    : 'strict',
+    validate        : 'oncreate'
+} );
 
 module.exports = Challenge;
 
