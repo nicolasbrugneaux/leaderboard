@@ -1,4 +1,6 @@
-var thinky = require( '../thinky.js' );
+var thinky  = require( '../thinky.js' );
+var Elo     = require( 'elo-js' );
+var elo     = new Elo();
 
 var Player = thinky.createModel( 'players',
 {
@@ -53,5 +55,19 @@ Player.define( 'fullName', function()
 Player.define( 'getView', function()
 {
     this.password = undefined;
+    return this;
+} );
+
+Player.define( 'wins', function( opponent, lame )
+{
+    /* lame is unused for now*/
+    this.ranking = elo.ifWins( this.ranking, opponent.ranking, lame );
+    return this;
+} );
+
+Player.define( 'loses', function( opponent, lame )
+{
+    /* lame is unused for now*/
+    this.ranking = elo.ifLoses( this.ranking, opponent.ranking, lame );
     return this;
 } );

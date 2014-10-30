@@ -2,6 +2,7 @@
 var parse   = require( 'co-body' );
 var http    = require( 'http' );
 var Player  = require( '../models/player' );
+var r       = require( '../thinky' ).r;
 
 // Retrieve all players
 module.exports.getAll = function* getAll( next )

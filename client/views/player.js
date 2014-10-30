@@ -16,7 +16,7 @@ module.exports = View.extend({
             hook: 'action-edit',
             name: 'href'
         },
-        'model.elo': '[data-hook~=elo]',
+        'model.ranking': '[data-hook~=elo]',
         'model.matches.length': '[data-hook~=matches]',
         'model.wonMatches.length': '[data-hook~=wins]',
         'model.lostMatches.length': '[data-hook~=losses]',

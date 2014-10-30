@@ -6,8 +6,8 @@ module.exports = AmpersandModel.extend(
     props :
     {
         id          : 'any',
-        winnerId    : ['string', true, ],
-        loserId     : ['string', true, ],
+        winnerId    : ['string', true ],
+        loserId     : ['string', true ],
         // winnerName: ['string', true, ''],
         // loserName: ['string', true, ''],
         lame        : ['boolean', true, false],

@@ -12,12 +12,13 @@ module.exports = PageView.extend({
     },
     render: function () {
         this.renderWithTemplate();
-        
+
         if (!this.collection.length)
         {
             this.fetchCollection();
         }
-        this.renderCollection(this.collection, PlayerView, this.queryByHook('players-list'));
+        this.renderCollection(this.collection.sort(), PlayerView,
+                              this.queryByHook('players-list'));
     },
     fetchCollection: function () {
         this.collection.fetch();

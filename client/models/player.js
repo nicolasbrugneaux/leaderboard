@@ -8,7 +8,7 @@ module.exports = AmpersandModel.extend(
         id          : 'any',
         firstName   : ['string', true, ''],
         lastName    : ['string', true, ''],
-        elo         : ['number', true, 1200],
+        ranking     : ['number', true, 1200],
         wonMatches  : ['array', true],
         lostMatches : ['array', true]
     },
@@ -32,14 +32,14 @@ module.exports = AmpersandModel.extend(
             fn      : function()
             {
                 return this.wonMatches.concat( this.lostMatches );
-            } 
+            }
         },
         avatar :
         {
             deps    : ['firstName', 'lastName'],
             fn      : function()
             {
-                return 'http://robohash.org/' + 
+                return 'http://robohash.org/' +
                     encodeURIComponent( this.fullName) + '?size=80x80';
             }
         },
