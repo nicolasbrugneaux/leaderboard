@@ -130,3 +130,81 @@ module.exports.del = function* del( next )
 
     yield next;
 };
+
+module.exports.isLoggedIn = function* login( next )
+{
+    var id = this.params.id;
+
+    if ( this.session[id] === true )
+    {
+        yield next;
+    }
+    
+    this.status = 200;
+};
+
+// Delete a player
+module.exports.login = function* login( next )
+{
+    this.type = 'application/json';
+
+    try
+    {
+        var id          = this.params.id;
+        var password    = this.params.password;
+
+        if ( id == null )
+        {
+            throw new Error('You needto specify a username.');
+        }
+
+        var player = yield Player.get( id ).run();
+
+        var hash = function( pwd )
+        {
+            return pwd;
+        };
+
+        if ( player == null || hash( password ) !== player.password )
+        {
+            throw new Error( 'The username or password is incorrect.' );
+        }
+
+        // do stuff set session
+        if ( !this.session[id] )
+        {
+            this.session[id] = true;
+        }
+
+        this.status = 200;
+    }
+    catch( e )
+    {
+        this.status = 500;
+        this.body = e.message || http.STATUS_CODES[this.status];
+    }
+
+    yield next;
+};
+
+
+// Delete a player
+module.exports.logout = function* logout( next )
+{
+    this.type = 'application/json';
+
+    console.log( 'yo', this.session );
+    try
+    {
+        var id = this.params.id;
+        this.session[id] = null;
+        this.status = 204;
+    }
+    catch( e )
+    {
+        this.status = 500;
+        this.body = e.message || http.STATUS_CODES[this.status];
+    }
+
+    yield next;
+};

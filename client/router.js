@@ -12,7 +12,7 @@ module.exports = Router.extend({
     routes: {
         '': 'home',
         'players': 'players',
-        'me/:id': 'login',
+        'login/:id/:password': 'login',
         'info': 'info',
         'match/add': 'matchAdd',
         'player/add': 'playerAdd',
@@ -29,7 +29,7 @@ module.exports = Router.extend({
     },
 
     // ------- ROUTE HANDLERS ---------
-    login: function ( id ) {
+    login: function ( id, password ) {
       console.log( 'this login page hing');
         me.id = id;
 

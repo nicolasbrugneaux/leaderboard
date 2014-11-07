@@ -12,7 +12,9 @@ var Player = thinky.createModel( 'players',
     },
     firstName   : String,
     lastName    : String,
-    password    : String
+    password    : String,
+    isAdmin     : Boolean,
+    email       : String
 },
 {
     enforce_type    : 'strict',

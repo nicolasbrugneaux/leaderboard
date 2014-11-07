@@ -9,7 +9,8 @@ module.exports =
     },
     koa:
     {
-        port: 8888
+        port: 8888,
+        keys: ['I love playing pool. Also this is super secure now.']
     },
     isDev: true
 };
