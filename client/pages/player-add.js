@@ -26,6 +26,7 @@ module.exports = PageView.extend(
 
                             wait: true,
                             success: function () {
+
                                 app.navigate('/players');
                                 app.players.fetch();
                             }

@@ -1,28 +1,46 @@
 var AmpersandModel = require('ampersand-model');
+var Player      = require( './player' );
 
 
 module.exports = AmpersandModel.extend({
     type: 'user',
     props: {
-        id: ['string'],
-        firstName: ['string', true, ''],
-        lastName: ['string', true, ''],
-        username: ['string']
+        id: ['string']
     },
-    derived: {
-        fullName: {
-            deps: ['firstName', 'lastName'],
-            cache: true,
-            fn: function () {
-                return this.firstName + ' ' + this.lastName;
-            }
-        },
-        initials: {
-            deps: ['firstName', 'lastName'],
-            cache: true,
-            fn: function () {
-                return (this.firstName.charAt(0) + this.lastName.charAt(0)).toUpperCase();
-            }
+    derived:
+    {
+      player :
+      {
+        deps: ['id'],
+        fn : function ( )
+        {
+            var player = new Player( { id: this.id });
+            player.fetch();
+
+            return player;
         }
+
+      },
+      loggedIn :
+      {
+        //basic check against an the id existing
+        deps: ['id'],
+        fn : function ( )
+        {
+            return ( this.id ) ? true : false;
+        }
+
+      },
+      isAdmin :
+      {
+        deps: ['player'],
+        fn : function ( )
+        {
+            console.log( 'lalala',this.player );
+            return  this.player.isAdmin;
+        }
+
+      }
+
     }
 });

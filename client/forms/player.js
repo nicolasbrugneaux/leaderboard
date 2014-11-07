@@ -22,8 +22,22 @@ module.exports = FormView.extend({
                 value: this.model && this.model.lastName,
                 placeholder: 'Last Name',
                 parent: this
+            }),
+            new ExtendedInput({
+                label: 'Email',
+                name: 'email',
+                value: this.model && this.model.email,
+                placeholder: 'your.face@sociomantic.com',
+                parent: this
+            }),
+            new ExtendedInput({
+                label: 'password',
+                name: 'password',
+                value: this.model && this.model.password,
+                placeholder: 'blablasecuritybla',
+                parent: this
             })
-          
+
         ];
     }
 });

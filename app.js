@@ -3,6 +3,7 @@ var logger      = require( 'koa-logger' );
 // var serve       = require( 'koa-static' );
 var Route       = require( 'koa-router' );
 // var jade         = require( 'koa-jade' );
+var session     = require( 'koa-session' );
 var koa         = require( 'koa' );
 // var path        = require( 'path' );
 var http        = require( 'http' );
@@ -140,6 +141,9 @@ function* render()
 
 route
 
+.get( '/login/:id/:password', api.players.login )
+.get( '/logout/:id', api.players.isLoggedIn, api.players.logout )
+.get( '/isLoggedIn/:id', api.players.isLoggedIn, api.players.get )
 // API
 .get( '/api/players', api.players.getAll )
 .get( '/api/players/:id', api.players.get )
@@ -177,11 +181,17 @@ route
 .get( '/players', render )
 .get( '/player/:idOrAction', render )
 .get( '/player/:id/:action', render )
-//matches
+
+// LOGIN
+.get( '/me', render )
+
+//Matches
 .get( '/matches', render )
 .get( '/match/:idOrAction', render )
 .get( '/match/:id/:action', render );
 
+app.keys = config.koa.keys;
+app.use( session() );
 app.use( logger() );
 app.use( compress() );
 // app.use( serve( path.join( getPath( 'public' ) ) ) );

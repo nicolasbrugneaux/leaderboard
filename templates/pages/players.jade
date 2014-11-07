@@ -6,6 +6,7 @@ section.page.pageOne
   p Try it by clicking the buttons
 
   .buttons.btn-group
-    button.btn.btn-default(data-hook="reset") .reset() 
-    button.btn.btn-default(data-hook="fetch") .fetch() 
-    a.btn.btn-default(href="player/add") Add Person
+    if me.isAdmin
+      button.btn.btn-default(data-hook="reset") .reset()
+      button.btn.btn-default(data-hook="fetch") .fetch()
+      a.btn.btn-default(href="player/add") Add Person

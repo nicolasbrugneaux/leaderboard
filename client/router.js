@@ -12,6 +12,7 @@ module.exports = Router.extend({
     routes: {
         '': 'home',
         'players': 'players',
+        'login/:id/:password': 'login',
         'info': 'info',
         'match/add': 'matchAdd',
         'player/add': 'playerAdd',
@@ -22,6 +23,19 @@ module.exports = Router.extend({
 
     // ------- ROUTE HANDLERS ---------
     home: function () {
+        this.trigger('page', new HomePage({
+            model: me
+        }));
+    },
+
+    // ------- ROUTE HANDLERS ---------
+    login: function ( id, password ) {
+      console.log( 'this login page hing');
+        me.id = id;
+
+        // me.player = new  Person({id: 123});
+        // me.player.fetch();
+
         this.trigger('page', new HomePage({
             model: me
         }));
@@ -51,10 +65,19 @@ module.exports = Router.extend({
     },
 
     matchAdd: function () {
-        this.trigger('page', new MatchAddPage(
-            {
-                collection: app.players
-            }));
+
+      if( me.isAdmin )
+      {
+          this.trigger('page', new MatchAddPage(
+              {
+                  collection: app.players
+              }));
+
+      }
+      else
+      {
+          this.redirectTo('');
+      }
     },
 
     catchAll: function () {
