@@ -3,6 +3,7 @@ var AmpersandModel  = require( 'ampersand-model' );
 
 module.exports = AmpersandModel.extend(
 {
+    urlRoot        : '/api/players/',
     props :
     {
         id          : 'any',
@@ -10,7 +11,10 @@ module.exports = AmpersandModel.extend(
         lastName    : ['string', true, ''],
         ranking     : ['number', true, 1200],
         wonMatches  : ['array', true],
-        lostMatches : ['array', true]
+        lostMatches : ['array', true],
+        email       : ['string', true, ''],
+        password    : ['string', true],
+        isAdmin     : ['boolean', false]
     },
     session :
     {

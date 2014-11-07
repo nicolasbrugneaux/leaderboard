@@ -16,7 +16,7 @@ module.exports = {
         // create our global 'me' object and an empty collection for our players models.
         window.me = new Me();
         this.players = new Players();
-        
+
         //matches object
         this.matches = new Matches();
 

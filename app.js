@@ -177,7 +177,12 @@ route
 .get( '/players', render )
 .get( '/player/:idOrAction', render )
 .get( '/player/:id/:action', render )
-//matches
+
+// LOGIN
+.get( '/me', render )
+.get( '/me/:id', render )
+
+//Matches
 .get( '/matches', render )
 .get( '/match/:idOrAction', render )
 .get( '/match/:id/:action', render );
