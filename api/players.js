@@ -117,7 +117,7 @@ module.exports.del = function* del( next )
             throw new Error('The player must have a field `id`.');
         }
 
-        var player = yield Player.get( id );
+        var player = yield Player.get( id ).run();
         yield player.delete();
 
         this.status = 204;
