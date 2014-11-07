@@ -1,11 +1,12 @@
 section.page.view-player
-  
+
   h2(data-hook='name')
 
   img(data-hook='avatar', width='80',  height='80')
 
   span(data-hook='elo')
 
-  .buttons
-    a.btn(data-hook='edit') Edit
-    button.btn(data-hook='delete') Delete
+  if me.isAdmin
+    .buttons
+      a.btn(data-hook='edit') Edit
+      button.btn(data-hook='delete') Delete

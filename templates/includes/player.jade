@@ -1,8 +1,9 @@
 li.player.list-group-item
 
-  span.btn-group.pull-right 
-    a.btn.btn-default(data-hook="action-edit") Edit 
-    a.btn.btn-danger(href="#", data-hook="action-delete") Delete
+  if me.isAdmin
+    span.btn-group.pull-right
+      a.btn.btn-default(data-hook="action-edit") Edit
+      a.btn.btn-danger(href="#", data-hook="action-delete") Delete
 
   img(data-hook="avatar", width="40", height="40")
   a(data-hook="name")
@@ -14,4 +15,3 @@ li.player.list-group-item
   span.wins(data-hook="wins")
   | /
   span.total(data-hook="matches")
-

@@ -65,10 +65,19 @@ module.exports = Router.extend({
     },
 
     matchAdd: function () {
-        this.trigger('page', new MatchAddPage(
-            {
-                collection: app.players
-            }));
+
+      if( me.isAdmin )
+      {
+          this.trigger('page', new MatchAddPage(
+              {
+                  collection: app.players
+              }));
+
+      }
+      else
+      {
+          this.redirectTo('');
+      }
     },
 
     catchAll: function () {

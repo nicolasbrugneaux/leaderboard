@@ -31,8 +31,19 @@
     };
 
     // includes/player.jade compiled template
-    templatizer["includes"]["player"] = function tmpl_includes_player() {
-        return '<li class="player list-group-item"><span class="btn-group pull-right"> <a data-hook="action-edit" class="btn btn-default">Edit </a><a href="#" data-hook="action-delete" class="btn btn-danger">Delete</a></span><img data-hook="avatar" width="40" height="40"/><a data-hook="name"></a><h6 class="elo__header">Elo Rating</h6><span data-hook="elo" class="elo"></span><h6 class="matches__header">Matches</h6><span data-hook="wins" class="wins"></span>/<span data-hook="matches" class="total"></span></li>';
+    templatizer["includes"]["player"] = function tmpl_includes_player(locals) {
+        var buf = [];
+        var jade_mixins = {};
+        var jade_interp;
+        var locals_for_with = locals || {};
+        (function(me) {
+            buf.push('<li class="player list-group-item">');
+            if (me.isAdmin) {
+                buf.push('<span class="btn-group pull-right"><a data-hook="action-edit" class="btn btn-default">Edit</a><a href="#" data-hook="action-delete" class="btn btn-danger">Delete</a></span>');
+            }
+            buf.push('<img data-hook="avatar" width="40" height="40"/><a data-hook="name"></a><h6 class="elo__header">Elo Rating</h6><span data-hook="elo" class="elo"></span><h6 class="matches__header">Matches</h6><span data-hook="wins" class="wins"></span>/<span data-hook="matches" class="total"></span></li>');
+        }).call(this, "me" in locals_for_with ? locals_for_with.me : typeof me !== "undefined" ? me : undefined);
+        return buf.join("");
     };
 
     // pages/home.jade compiled template
@@ -56,13 +67,35 @@
     };
 
     // pages/playerView.jade compiled template
-    templatizer["pages"]["playerView"] = function tmpl_pages_playerView() {
-        return '<section class="page view-player"><h2 data-hook="name"></h2><img data-hook="avatar" width="80" height="80"/><span data-hook="elo"></span><div class="buttons"><a data-hook="edit" class="btn">Edit</a><button data-hook="delete" class="btn">Delete</button></div></section>';
+    templatizer["pages"]["playerView"] = function tmpl_pages_playerView(locals) {
+        var buf = [];
+        var jade_mixins = {};
+        var jade_interp;
+        var locals_for_with = locals || {};
+        (function(me) {
+            buf.push('<section class="page view-player"><h2 data-hook="name"></h2><img data-hook="avatar" width="80" height="80"/><span data-hook="elo"></span>');
+            if (me.isAdmin) {
+                buf.push('<div class="buttons"><a data-hook="edit" class="btn">Edit</a><button data-hook="delete" class="btn">Delete</button></div>');
+            }
+            buf.push("</section>");
+        }).call(this, "me" in locals_for_with ? locals_for_with.me : typeof me !== "undefined" ? me : undefined);
+        return buf.join("");
     };
 
     // pages/players.jade compiled template
-    templatizer["pages"]["players"] = function tmpl_pages_players() {
-        return '<section class="page pageOne"><h2>Players</h2><ul data-hook="players-list" class="list-group"></ul><p>Try it by clicking the buttons</p><div class="buttons btn-group"><button data-hook="reset" class="btn btn-default">.reset() </button><button data-hook="fetch" class="btn btn-default">.fetch() </button><a href="player/add" class="btn btn-default">Add Person</a></div></section>';
+    templatizer["pages"]["players"] = function tmpl_pages_players(locals) {
+        var buf = [];
+        var jade_mixins = {};
+        var jade_interp;
+        var locals_for_with = locals || {};
+        (function(me) {
+            buf.push('<section class="page pageOne"><h2>Players</h2><ul data-hook="players-list" class="list-group"></ul><p>Try it by clicking the buttons</p><div class="buttons btn-group">');
+            if (me.isAdmin) {
+                buf.push('<button data-hook="reset" class="btn btn-default">.reset()</button><button data-hook="fetch" class="btn btn-default">.fetch()</button><a href="player/add" class="btn btn-default">Add Person</a>');
+            }
+            buf.push("</div></section>");
+        }).call(this, "me" in locals_for_with ? locals_for_with.me : typeof me !== "undefined" ? me : undefined);
+        return buf.join("");
     };
 
     return templatizer;
