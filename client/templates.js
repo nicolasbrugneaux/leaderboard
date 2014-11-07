@@ -16,8 +16,19 @@
     templatizer["pages"] = {};
 
     // body.jade compiled template
-    templatizer["body"] = function tmpl_body() {
-        return '<body><nav class="navbar navbar-default"><div class="container-fluid"><div class="navbar-header"><a href="/" class="navbar-brand">Poll Ampersand</a></div><ul class="nav navbar-nav"><li><a href="/">home</a></li><li><a href="/players">players</a></li><li> <a href="/match/add">add match </a></li></ul></div></nav><div class="container"><main data-hook="page-container"></main></div></body>';
+    templatizer["body"] = function tmpl_body(locals) {
+        var buf = [];
+        var jade_mixins = {};
+        var jade_interp;
+        var locals_for_with = locals || {};
+        (function(me) {
+            buf.push('<body><nav class="navbar navbar-default"><div class="container-fluid"><div class="navbar-header"><a href="/" class="navbar-brand">Poll Ampersand</a></div><ul class="nav navbar-nav"><li><a href="/">home</a></li><li><a href="/players">players</a></li></ul>');
+            if (me.isAdmin) {
+                buf.push('<li><a href="/match/add">add match</a></li>');
+            }
+            buf.push('</div></nav><div class="container"><main data-hook="page-container"></main></div></body>');
+        }).call(this, "me" in locals_for_with ? locals_for_with.me : typeof me !== "undefined" ? me : undefined);
+        return buf.join("");
     };
 
     // head.jade compiled template
