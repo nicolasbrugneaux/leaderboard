@@ -21,8 +21,7 @@ var Player = thinky.createModel( 'players',
     validate        : 'oncreate'
 } );
 
-Player.ensureIndex( 'ranking' );
-Player.ensureIndex( 'userId' );
+Player.ensureIndex( 'email' );
 
 module.exports = Player;
 

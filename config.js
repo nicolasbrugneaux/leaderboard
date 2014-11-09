@@ -7,6 +7,13 @@ module.exports =
         authKey: '',
         db: 'pool_party'
     },
+    redis:
+    {
+        host: 'localhost',
+        port: 6379,
+        pass: '',
+        db: 'sessions'
+    },
     koa:
     {
         port: 8888,

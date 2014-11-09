@@ -1,46 +1,67 @@
-var AmpersandModel = require('ampersand-model');
-var Player      = require( './player' );
-
+var AmpersandModel  = require('ampersand-model');
+var Player          = require( './player' );
+var xhr             = require( 'xhr' );
 
 module.exports = AmpersandModel.extend({
-    type: 'user',
-    props: {
+    type  : 'user',
+    props :
+    {
         id: ['string']
     },
     derived:
     {
-      player :
-      {
-        deps: ['id'],
-        fn : function ( )
+        player :
         {
-            var player = new Player( { id: this.id });
-            player.fetch();
+            deps    : ['id'],
+            fn      : function ()
+            {
+                var player = new Player( { id: this.id });
+                player.fetch();
 
-            return player;
-        }
-
-      },
-      loggedIn :
-      {
-        //basic check against an the id existing
-        deps: ['id'],
-        fn : function ( )
+                return player;
+            }
+        },
+        isLoggedIn :
         {
-            return ( this.id ) ? true : false;
-        }
+            deps    : ['player'],
+            cache   : false,
+            fn      : function()
+            {
+                var _this = this;
+                var _logged = false;
 
-      },
-      isAdmin :
-      {
-        deps: ['player'],
-        fn : function ( )
+                xhr(
+                {
+                    method  : 'GET',
+                    uri     : '/api/isLoggedIn',
+                    headers :
+                    {
+                        'Content-Type' : 'application/json'
+                    },
+                    sync : true
+                }, function( err, response/*, body*/ )
+                {
+                    var player = JSON.parse( response.body );
+                    if ( player && player.id )
+                    {
+                        _this.set( 'id', player.id );
+                        _logged = true;
+                    }
+                } );
+
+                return _logged;
+
+            }
+
+        },
+        isAdmin :
         {
-            console.log( 'lalala',this.player );
-            return  this.player.isAdmin;
+            deps    : ['player'],
+            cache   : false,
+            fn      : function()
+            {
+                return this.isLoggedIn && this.player.isAdmin;
+            }
         }
-
-      }
-
     }
 });

@@ -2,13 +2,22 @@ body
   nav.navbar.navbar-default
     div.container-fluid
       div.navbar-header
-        a.navbar-brand(href='/') Poll Ampersand
+        a.navbar-brand(href='/') Pool Party
       ul.nav.navbar-nav
         li
-            a(href="/") home
-        li
-            a(href="/players") players
-        li
-          a(href="/match/add") add match
+            a(href="/")
+              if me.isLoggedIn
+                | Log out
+              else
+                | Sign in / Sign up
+          li
+              a(href="/players") Players
+        if me.isLoggedIn
+          if me.isAdmin
+            li
+              a(href="/match/add") Add match
+          else
+            li
+              a(href="/match/request" ) Challenge someone
   .container
     main(data-hook="page-container")

@@ -2,11 +2,3 @@ section.page.pageOne
   h2 Players
 
   ul.list-group(data-hook="players-list")
-
-  p Try it by clicking the buttons
-
-  .buttons.btn-group
-    if me.isAdmin
-      button.btn.btn-default(data-hook="reset") .reset()
-      button.btn.btn-default(data-hook="fetch") .fetch()
-      a.btn.btn-default(href="player/add") Add Person

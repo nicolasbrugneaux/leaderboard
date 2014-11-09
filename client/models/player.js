@@ -1,3 +1,4 @@
+/*globals me*/
 var AmpersandModel  = require( 'ampersand-model' );
 
 
@@ -18,7 +19,14 @@ module.exports = AmpersandModel.extend(
     },
     session :
     {
-        selected    : ['boolean', true, false]
+        editable :
+        {
+            deps    : ['id'],
+            fn      : function()
+            {
+                return this.id === me.id || me.isAdmin;
+            }
+        }
     },
     derived :
     {

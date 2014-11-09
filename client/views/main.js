@@ -1,4 +1,4 @@
-/*global app, me, $*/
+/*global app, me, $, document, window*/
 // This app view is responsible for rendering all content that goes into
 // <html>. It's initted right away and renders itself on DOM ready.
 
@@ -32,7 +32,7 @@ module.exports = View.extend({
         this.pageSwitcher = new ViewSwitcher(this.queryByHook('page-container'), {
             show: function (newView, oldView) {
                 // it's inserted and rendered for me
-                document.title = _.result(newView, 'pageTitle') || "Poll Ampersand";
+                document.title = _.result(newView, 'pageTitle');
                 document.scrollTop = 0;
 
                 // add a class specifying it's active
@@ -42,7 +42,7 @@ module.exports = View.extend({
                 app.currentPage = newView;
             }
         });
-        
+
         return this;
     },
 

@@ -3,6 +3,7 @@ var parse   = require( 'co-body' );
 var http    = require( 'http' );
 var Player  = require( '../models/player' );
 var r       = require( '../thinky' ).r;
+var crypto  = require( '../crypto' );
 
 // Retrieve all players
 module.exports.getAll = function* getAll( next )
@@ -59,12 +60,25 @@ module.exports.create = function* create( next )
     try
     {
         var data        = yield parse( this );
+        data.password   = yield crypto.hash( data.password );
         var player      = new Player( data );
+
+        var existing = yield Player.filter( { email: data.email } ).limit( 1 ).run();
+
+        if ( existing.length !== 0 )
+        {
+            throw new Error( 'This email is already taken.' );
+        }
 
         yield player.save();
 
         this.body = JSON.stringify( player.getView() );
         this.status = 201;
+
+        if ( !this.session[player.id] )
+        {
+            this.session[player.id] = true;
+        }
     }
     catch( e )
     {
@@ -82,7 +96,8 @@ module.exports.update = function* update( next )
 
     try
     {
-        var data = yield parse(this);
+        var data = yield parse( this );
+        delete data.password;
 
         if ( ( data == null ) || ( data.id == null ) )
         {
@@ -131,16 +146,17 @@ module.exports.del = function* del( next )
     yield next;
 };
 
-module.exports.isLoggedIn = function* login( next )
+module.exports.isLoggedIn = function* isLoggedIn( next )
 {
-    var id = this.params.id;
-
-    if ( this.session[id] === true )
+    if ( this.session[this.sessionId] )
     {
+        this.params.id = this.session[this.sessionId];
         yield next;
     }
-    
-    this.status = 200;
+    else
+    {
+        this.status = 204;
+    }
 };
 
 // Delete a player
@@ -150,32 +166,33 @@ module.exports.login = function* login( next )
 
     try
     {
-        var id          = this.params.id;
-        var password    = this.params.password;
+        var data = yield parse( this );
 
-        if ( id == null )
+        if ( data.email == null )
         {
-            throw new Error('You needto specify a username.');
+            throw new Error('You need to specify a username.');
         }
 
-        var player = yield Player.get( id ).run();
+        var player = ( yield Player.filter( { email: data.email } ).limit( 1 ).run() )[0];
 
-        var hash = function( pwd )
+        if ( player == null )
         {
-            return pwd;
-        };
+            throw new Error( 'The email is incorrect.' );
+        }
 
-        if ( player == null || hash( password ) !== player.password )
+        var correctPwd = yield crypto.compare( data.password, player.password );
+
+        if ( !correctPwd )
         {
-            throw new Error( 'The username or password is incorrect.' );
+            throw new Error( 'The password is incorrect.' );
         }
 
         // do stuff set session
-        if ( !this.session[id] )
+        if ( !this.session[this.sessionId] )
         {
-            this.session[id] = true;
+            this.session[this.sessionId] = player.id;
         }
-
+        this.body = JSON.stringify( player.getView() );
         this.status = 200;
     }
     catch( e )
@@ -193,11 +210,9 @@ module.exports.logout = function* logout( next )
 {
     this.type = 'application/json';
 
-    console.log( 'yo', this.session );
     try
     {
-        var id = this.params.id;
-        this.session[id] = null;
+        this.session[this.sessionId] = null;
         this.status = 204;
     }
     catch( e )

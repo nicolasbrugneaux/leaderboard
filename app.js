@@ -3,8 +3,9 @@ var logger      = require( 'koa-logger' );
 // var serve       = require( 'koa-static' );
 var Route       = require( 'koa-router' );
 // var jade         = require( 'koa-jade' );
-var session     = require( 'koa-session' );
 var koa         = require( 'koa' );
+var session     = require( 'koa-generic-session' );
+var RedisStore  = require( 'koa-redis' );
 // var path        = require( 'path' );
 var http        = require( 'http' );
 var r           = require( 'rethinkdb' );
@@ -141,9 +142,6 @@ function* render()
 
 route
 
-.get( '/login/:id/:password', api.players.login )
-.get( '/logout/:id', api.players.isLoggedIn, api.players.logout )
-.get( '/isLoggedIn/:id', api.players.isLoggedIn, api.players.get )
 // API
 .get( '/api/players', api.players.getAll )
 .get( '/api/players/:id', api.players.get )
@@ -176,22 +174,19 @@ route
     }
 } )
 
+.post( '/api/login', api.players.login )
+.post( '/api/logout', api.players.isLoggedIn, api.players.logout )
+.get( '/api/isLoggedIn', api.players.isLoggedIn, api.players.get )
+
 // CLIENT RENDERING
-.get( '/', render )
-.get( '/players', render )
-.get( '/player/:idOrAction', render )
-.get( '/player/:id/:action', render )
-
-// LOGIN
-.get( '/me', render )
-
-//Matches
-.get( '/matches', render )
-.get( '/match/:idOrAction', render )
-.get( '/match/:id/:action', render );
+.get( /^(?!\/api\/).*/, render );
 
 app.keys = config.koa.keys;
-app.use( session() );
+app.use( session(
+{
+    cookie: { maxAge: 1000 * 60 * 60 * 24 }, //24 hours
+    store: new RedisStore()
+} ) );
 app.use( logger() );
 app.use( compress() );
 // app.use( serve( path.join( getPath( 'public' ) ) ) );
