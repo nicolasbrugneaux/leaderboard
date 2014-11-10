@@ -6,8 +6,11 @@ var Route       = require( 'koa-router' );
 var koa         = require( 'koa' );
 var session     = require( 'koa-generic-session' );
 var RedisStore  = require( 'koa-redis' );
+var SSL         = require( 'koa-force-ssl' );
 // var path        = require( 'path' );
 var http        = require( 'http' );
+var https       = require( 'https' );
+var fs          = require( 'fs' );
 var r           = require( 'rethinkdb' );
 var Moonboots   = require( 'moonboots' );
 var stylizer    = require( 'stylizer' );
@@ -182,6 +185,7 @@ route
 .get( /^(?!\/api\/).*/, render );
 
 app.keys = config.koa.keys;
+app.use( SSL( config.koa.port ) );
 app.use( session(
 {
     cookie: { maxAge: 1000 * 60 * 60 * 24 }, //24 hours
@@ -194,7 +198,15 @@ app.use( createConnection );
 app.use( route.middleware() );
 app.use( closeConnection );
 
-if ( !module.parent ) {
-  app.listen( config.koa.port );
-  console.log( 'listening on port ' + config.koa.port );
+
+var options =
+{
+    key   : fs.readFileSync( config.koa.tls_key ),
+    cert  : fs.readFileSync( config.koa.tls_cert )
+};
+
+if ( !module.parent )
+{
+    https.createServer( options, app.callback() ).listen( config.koa.port );
+    console.log( 'listening on port ' + config.koa.port );
 }

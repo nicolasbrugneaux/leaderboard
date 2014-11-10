@@ -2,3 +2,8 @@ npm-debug.log
 node_modules
 rethinkdb_data
 
+*.pem
+dump.rdb
+*.lock
+.meteor/
+packages/
