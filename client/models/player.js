@@ -1,4 +1,4 @@
-/*globals me*/
+/*globals me, app*/
 var AmpersandModel  = require( 'ampersand-model' );
 
 
@@ -51,7 +51,7 @@ module.exports = AmpersandModel.extend(
             deps    : ['firstName', 'lastName'],
             fn      : function()
             {
-                return 'http://robohash.org/' +
+                return app.protocol + 'robohash.org/' +
                     encodeURIComponent( this.fullName) + '?size=80x80';
             }
         },

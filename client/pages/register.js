@@ -19,15 +19,14 @@ module.exports = PageView.extend(
                     el              : el,
                     submitCallback  : function( data )
                     {
-                        console.log( data );
                         app.players.create( data,
                         {
                             wait    : true,
                             success : function( player )
                             {
-                                me.id = player.id;
-                                app.navigate( '/players' );
+                                me.set( 'id', player.id );
                                 app.players.fetch();
+                                app.navigate( '/players' );
                             }
                         } );
                     }

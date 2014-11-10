@@ -23,7 +23,7 @@ module.exports = AmpersandModel.extend({
         },
         isLoggedIn :
         {
-            deps    : ['player'],
+            deps    : [],
             cache   : false,
             fn      : function()
             {
@@ -38,21 +38,25 @@ module.exports = AmpersandModel.extend({
                     {
                         'Content-Type' : 'application/json'
                     },
-                    sync : true
-                }, function( err, response/*, body*/ )
+                    sync    : true
+                }, function( err, response )
                 {
-                    var player = JSON.parse( response.body );
+                    var player = !err ? JSON.parse( response.body ) : false;
+
                     if ( player && player.id )
                     {
                         _this.set( 'id', player.id );
                         _logged = true;
                     }
+                    else if ( _this.id )
+                    {
+                        _this.unset( 'id' );
+                        _this.unset( 'player' );
+                    }
                 } );
 
                 return _logged;
-
             }
-
         },
         isAdmin :
         {

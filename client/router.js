@@ -54,7 +54,10 @@ module.exports = Router.extend(
 
     playerAdd : function()
     {
-        this.trigger( 'page', new PlayerAddPage() );
+        this.trigger( 'page', new PlayerAddPage(
+        {
+            model : me,
+        } ) );
     },
 
     playerEdit : function( id )
@@ -64,7 +67,8 @@ module.exports = Router.extend(
 
         this.trigger( 'page', new Page(
         {
-            id : id
+            id      : id,
+            model   : me
         } ) );
     },
 
@@ -72,18 +76,19 @@ module.exports = Router.extend(
     {
         this.trigger( 'page', new PlayerViewPage(
         {
-            id : id
+            id      : id,
+            model   : me
         } ) );
     },
 
     matchAdd : function()
     {
-
-        if ( me && me.isLoggedIn && me.isAdmin )
+        if ( me && me.isAdmin )
         {
             this.trigger( 'page', new MatchAddPage(
             {
-                collection : app.players
+                collection  : app.players,
+                model       : me
             } ) );
 
         }

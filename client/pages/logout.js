@@ -25,7 +25,7 @@ module.exports = PageView.extend(
                             success : function()
                             {
                                 me.set( 'id', null );
-                                app.navigate( '/' );
+                                app.navigate( 'home' );
                             },
                             error : function( err, response )
                             {

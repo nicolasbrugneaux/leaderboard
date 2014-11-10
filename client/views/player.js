@@ -13,12 +13,6 @@ module.exports = View.extend(
             hook    : 'avatar',
             name    : 'src'
         },
-        'model.editUrl'     :
-        {
-            type    : 'attribute',
-            hook    : 'action-edit',
-            name    : 'href'
-        },
         'model.ranking'             : '[data-hook~=elo]',
         'model.matches.length'      : '[data-hook~=matches]',
         'model.wonMatches.length'   : '[data-hook~=wins]',
@@ -27,6 +21,12 @@ module.exports = View.extend(
         {
             type    : 'attribute',
             hook    : 'name',
+            name    : 'href'
+        },
+        'model.editUrl'     :
+        {
+            type    : 'attribute',
+            hook    : 'action-edit',
             name    : 'href'
         }
     },

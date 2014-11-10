@@ -28,6 +28,7 @@ module.exports = View.extend({
         // main renderer
         this.renderWithTemplate({me: me});
 
+
         // init and configure our page switcher
         this.pageSwitcher = new ViewSwitcher(this.queryByHook('page-container'), {
             show: function (newView, oldView) {
