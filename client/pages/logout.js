@@ -24,7 +24,8 @@ module.exports = PageView.extend(
                             wait    : true,
                             success : function()
                             {
-                                me.set( 'id', null );
+                                me.id = '';
+                                me.isLoggedIn = false;
                                 app.navigate( 'home' );
                             },
                             error : function( err, response )

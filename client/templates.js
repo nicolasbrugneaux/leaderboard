@@ -22,7 +22,7 @@
         var jade_interp;
         var locals_for_with = locals || {};
         (function(me) {
-            buf.push('<body><nav class="navbar navbar-default"><div class="container-fluid"><div class="navbar-header"><a href="/" class="navbar-brand">Pool Party</a></div><ul class="nav navbar-nav"><li><a href="/">');
+            buf.push('<body><nav data-hook="page-menu" class="navbar navbar-default"><div class="container-fluid"><div class="navbar-header"><a href="/" class="navbar-brand">Pool Party</a></div><ul class="nav navbar-nav"><li><a href="/">');
             if (me.isLoggedIn) {
                 buf.push("Log out");
             } else {
@@ -67,6 +67,32 @@
         return buf.join("");
     };
 
+    // menu.jade compiled template
+    templatizer["menu"] = function tmpl_menu(locals) {
+        var buf = [];
+        var jade_mixins = {};
+        var jade_interp;
+        var locals_for_with = locals || {};
+        (function(me) {
+            buf.push('<div class="container-fluid"><div class="navbar-header"><a href="/" class="navbar-brand">Pool Party</a></div><ul class="nav navbar-nav"><li><a href="/">');
+            if (me.isLoggedIn) {
+                buf.push("Log out");
+            } else {
+                buf.push("Sign in / Sign up");
+            }
+            buf.push('</a></li><li><a href="/players">Players</a></li>');
+            if (me.isLoggedIn) {
+                if (me.isAdmin) {
+                    buf.push('<li><a href="/match/add">Add match</a></li>');
+                } else {
+                    buf.push('<li><a href="/match/request">Challenge someone</a></li>');
+                }
+            }
+            buf.push("</ul></div>");
+        }).call(this, "me" in locals_for_with ? locals_for_with.me : typeof me !== "undefined" ? me : undefined);
+        return buf.join("");
+    };
+
     // pages/home.jade compiled template
     templatizer["pages"]["home"] = function tmpl_pages_home() {
         return '<section class="page logout"><h2>Welcome to the Sociomantic pool table Leaderboard — The Pool Party!</h2><div data-hook="auth-form"><h2>Log out</h2><form role="logout-form" class="form-signin"><h3 class="form-signin-heading">Sad to see you leave :(</h3><button type="submit" class="btn btn-lg btn-primary btn-block">Sign out</button></form></div></section>';
@@ -74,7 +100,7 @@
 
     // pages/loginForm.jade compiled template
     templatizer["pages"]["loginForm"] = function tmpl_pages_loginForm() {
-        return '<section class="page logout"><h2>Welcome to the Sociomantic pool table Leaderboard — The Pool Party!</h2><div data-hook="auth-form"><h2>Log in</h2><form role="login-form" class="form-signin"><fieldset data-hook="field-container"></fieldset><button type="submit" class="btn btn-lg btn-primary btn-block">Sign in</button><a href="register">Don\'t have an account yet?</a></form></div></section>';
+        return '<section class="page login"><h2>Welcome to the Sociomantic pool table Leaderboard — The Pool Party!</h2><div data-hook="auth-form"><h2>Log in</h2><form role="login-form" class="form-signin"><fieldset data-hook="field-container"></fieldset><button type="submit" class="btn btn-lg btn-primary btn-block">Sign in</button><a href="register">Don\'t have an account yet?</a></form></div></section>';
     };
 
     // pages/logoutForm.jade compiled template
@@ -115,12 +141,12 @@
 
     // pages/players.jade compiled template
     templatizer["pages"]["players"] = function tmpl_pages_players() {
-        return '<section class="page pageOne"><h2>Players</h2><ul data-hook="players-list" class="list-group"></ul></section>';
+        return '<section class="page players"><h2>Players</h2><ul data-hook="players-list" class="list-group"></ul></section>';
     };
 
     // pages/registerForm.jade compiled template
     templatizer["pages"]["registerForm"] = function tmpl_pages_registerForm() {
-        return '<div class="form-group"><form role="form" class="form-signin"><h3 class="form-signin-heading">You\'re only one step away from joining this awesome place!</h3><fieldset data-hook="field-container"></fieldset><button type="submit" class="btn btn-lg btn-primary btn-block">Register</button></form></div>';
+        return '<section class="page register"><div class="form-group"><form role="form" class="form-signin"><h3 class="form-signin-heading">You\'re only one step away from joining this awesome place!</h3><fieldset data-hook="field-container"></fieldset><button type="submit" class="btn btn-lg btn-primary btn-block">Register</button></form></div></section>';
     };
 
     return templatizer;

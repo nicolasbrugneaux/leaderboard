@@ -1,5 +1,5 @@
 body
-  nav.navbar.navbar-default
+  nav.navbar.navbar-default(data-hook="page-menu")
     div.container-fluid
       div.navbar-header
         a.navbar-brand(href='/') Pool Party
@@ -19,5 +19,6 @@ body
           else
             li
               a(href="/match/request" ) Challenge someone
+
   .container
     main(data-hook="page-container")

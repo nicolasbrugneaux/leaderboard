@@ -17,7 +17,8 @@ module.exports =
         var self        = window.app = this;
         this.protocol   = document.location.protocol + '//';
         // create our global 'me' object and an empty collection for our players models.
-        window.me       = new Me();
+        var me = window.me = new Me();
+        me.isLoggedIn   = me.getLoggedStatus();
         this.players    = new Players();
         this.matches    = new Matches();
         this.router     = new Router();

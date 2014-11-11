@@ -26,8 +26,8 @@ module.exports = PageView.extend(
                             {
                                 var player = JSON.parse( response.body );
 
-                                me.set( 'id', player.id );
-                                me.set( 'isLoggedIn', true );
+                                me.id           = player.id;
+                                me.isLoggedIn   = true;
                                 app.navigate( '/players' );
                                 app.players.fetch();
                             },

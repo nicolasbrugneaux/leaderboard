@@ -2,11 +2,16 @@ var AmpersandModel  = require('ampersand-model');
 var Player          = require( './player' );
 var xhr             = require( 'xhr' );
 
-module.exports = AmpersandModel.extend({
+module.exports = AmpersandModel.extend(
+{
     type  : 'user',
     props :
     {
-        id: ['string']
+        id : ['string', true, '']
+    },
+    session :
+    {
+        isLoggedIn : ['boolean', true, false]
     },
     derived:
     {
@@ -21,43 +26,6 @@ module.exports = AmpersandModel.extend({
                 return player;
             }
         },
-        isLoggedIn :
-        {
-            deps    : [],
-            cache   : false,
-            fn      : function()
-            {
-                var _this = this;
-                var _logged = false;
-
-                xhr(
-                {
-                    method  : 'GET',
-                    uri     : '/api/isLoggedIn',
-                    headers :
-                    {
-                        'Content-Type' : 'application/json'
-                    },
-                    sync    : true
-                }, function( err, response )
-                {
-                    var player = !err ? JSON.parse( response.body ) : false;
-
-                    if ( player && player.id )
-                    {
-                        _this.set( 'id', player.id );
-                        _logged = true;
-                    }
-                    else if ( _this.id )
-                    {
-                        _this.unset( 'id' );
-                        _this.unset( 'player' );
-                    }
-                } );
-
-                return _logged;
-            }
-        },
         isAdmin :
         {
             deps    : ['player'],
@@ -67,5 +35,36 @@ module.exports = AmpersandModel.extend({
                 return this.isLoggedIn && this.player.isAdmin;
             }
         }
+    },
+    getLoggedStatus : function()
+    {
+        var _this       = this;
+        var isLogged;
+
+        xhr(
+        {
+            method  : 'GET',
+            uri     : '/api/isLoggedIn',
+            headers :
+            {
+                'Content-Type' : 'application/json'
+            },
+            sync    : true
+        },
+        function( err, response )
+        {
+            if ( !err && response.status === 200 )
+            {
+                var player = JSON.parse( response.body );
+                _this.id = player.id;
+                isLogged = true;
+            }
+            else if ( _this.id )
+            {
+                _this.id = '';
+            }
+        } );
+
+        return !!isLogged;
     }
-});
+} );
